@@ -14,6 +14,8 @@ shot_pic = pygame.transform.scale(shot_pic, (50, 50))
 player_pic = pygame.image.load('WhatsApp_Image_2022-02-14_at_15.17.07-removebg-preview.png')
 player_pic = pygame.transform.scale(player_pic, (150, 150))
 
+pygame.display.set_caption('Av Invaders')
+
 # sounds :
 shooting_sound = pygame.mixer.Sound('hietz.wav')
 shooting_sound.set_volume(0.2)
@@ -109,7 +111,7 @@ while game_loop:
         display.blit(score_text, [50, 800])
 
         display.blit(menu_text, [50, 50])
-        if 50 <= pos[0] <= 195 and 50 <= pos[1] <= 110:
+        if 50 <= pos[0] <= 195 and 50 <= pos[1] <= 110 or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             restart()
             passed_screen = False
 
@@ -156,7 +158,7 @@ while game_loop:
             display.blit(restart_text, [700, 650])
             display.blit(mazal_tov_text, [300, 300])
 
-            if 700 <= pos[0] <= 1250 and 650 <= pos[1] <= 755:
+            if 700 <= pos[0] <= 1250 and 650 <= pos[1] <= 755 or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 win = False
                 restart()
 
@@ -164,22 +166,22 @@ while game_loop:
             display.blit(loss_text, [700, 500])
             display.blit(restart_text, [700, 650])
 
-            if 700 <= pos[0] <= 1250 and 650 <= pos[1] <= 755:
+            if 700 <= pos[0] <= 1250 and 650 <= pos[1] <= 755 or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 loss = False
                 restart()
 
         # PLAYER :
+        if not loss:
+            player.display_on_screen(display)
+            player.moving()
 
-        player.display_on_screen(display)
-        player.moving()
-
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and not loss:
             shooting_sound.play()
             shotArray.append(Shot(player.x + 30, player.y, shot_pic, 12))
 
         for shot in shotArray:
             shot.display_on_screen(display)
-            shot.moving()
+            shot.moving_up()
             if len(shotArray) > 4 and shot in shotArray:
                 shotArray.remove(shot)
             for av in avs:
@@ -200,7 +202,7 @@ while game_loop:
         display.blit(quit_text, [630, 700])
 
         #   print(pos)
-        if 600 <= pos[0] <= 1030 and 500 <= pos[1] <= 600:
+        if 600 <= pos[0] <= 1030 and 500 <= pos[1] <= 600 or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             passed_screen = True
         if 630 <= pos[0] <= 790 and 700 <= pos[1] <= 815:
             quit(0)

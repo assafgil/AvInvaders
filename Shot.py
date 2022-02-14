@@ -8,7 +8,7 @@ class Shot:
         self.img = img
         self.step = step
 
-    def moving(self):
+    def moving_up(self):
         self.y -= self.step
 
     def moving_down(self):
