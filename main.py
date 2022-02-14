@@ -48,17 +48,21 @@ player = Player(500, 850, player_pic)
 
 loss = False
 win = False
+score = 0
 
 font = pygame.font.SysFont('segoeui', 100)
+font_2 = pygame.font.SysFont('segoeui', 60)
 loss_text = font.render('you lost', True, (0, 0, 0))
 restart_text = font.render('restart game', True, (0, 0, 0))
 win_text = font.render('winner ! ', True, (0, 0, 0))
 mazal_tov_text = font.render('ךתוא בהוא ינא בוט לזמ', True, (0, 0, 0))
+menu_text = font_2.render('menu', True, (0, 0, 0))
 
 
 def restart():
-    global loss, win
+    global loss, win, score
     loss, win = False, False
+    score = 0
     avs.clear()
     for x in range(10):
         for y in range(5):
@@ -82,12 +86,21 @@ while game_loop:
     pos = (0, 0)
     if event.type == pygame.MOUSEBUTTONDOWN:
         pos = pygame.mouse.get_pos()
-    #    print(pos)
+        print(pos)
 
     display.fill((100, 100, 100))
 
     # AV
     if passed_screen:
+
+        score_text = font.render('score : ' + str(score) + " / 50 ", True, (0, 0, 0))
+        display.blit(score_text, [50, 800])
+
+        display.blit(menu_text, [50, 50])
+        if 50 <= pos[0] <= 195 and 50 <= pos[1] <= 110:
+            restart()
+            passed_screen = False
+
         av_timer += 1 / FPS
         if av_timer > 1 / 10:
             for av in avs:
@@ -138,6 +151,7 @@ while game_loop:
             for av in avs:
                 if shot.getRect().colliderect(av.getRect()) and shot in shotArray:
                     av_kill_sound.play()
+                    score += 1
                     avs.remove(av)
                     shotArray.remove(shot)
 
