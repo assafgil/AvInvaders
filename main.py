@@ -21,6 +21,10 @@ shooting_sound.set_volume(0.2)
 av_kill_sound = pygame.mixer.Sound('ani hoev otha.wav')
 av_kill_sound.set_volume(20)
 
+pygame.mixer.music.load('2022-02-12-16-33-45-_online-video-cutter.com_.wav')
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.4)
+
 # av animation
 av_pic_array = []
 p1 = pygame.image.load('av1-removebg-preview.png')
