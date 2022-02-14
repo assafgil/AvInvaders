@@ -14,7 +14,7 @@ shot_pic = pygame.transform.scale(shot_pic, (50, 50))
 player_pic = pygame.image.load('WhatsApp_Image_2022-02-14_at_15.17.07-removebg-preview.png')
 player_pic = pygame.transform.scale(player_pic, (150, 150))
 
-# sound :
+# sounds :
 shooting_sound = pygame.mixer.Sound('hietz.wav')
 shooting_sound.set_volume(0.2)
 
@@ -68,6 +68,7 @@ def restart():
     loss, win = False, False
     score = 0
     avs.clear()
+    shotArray.clear()
     for x in range(10):
         for y in range(5):
             z = Av(100 * x, 60 * y, av_pic_array)
