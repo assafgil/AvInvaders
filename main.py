@@ -158,7 +158,8 @@ while game_loop:
             display.blit(restart_text, [700, 650])
             display.blit(mazal_tov_text, [300, 300])
 
-            if 700 <= pos[0] <= 1250 and 650 <= pos[1] <= 755 or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            if 700 <= pos[0] <= 1250 and 650 <= pos[1] <= 755 or event.type == pygame.KEYDOWN and \
+                    event.key == pygame.K_SPACE:
                 win = False
                 restart()
 
@@ -166,7 +167,8 @@ while game_loop:
             display.blit(loss_text, [700, 500])
             display.blit(restart_text, [700, 650])
 
-            if 700 <= pos[0] <= 1250 and 650 <= pos[1] <= 755 or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            if 700 <= pos[0] <= 1250 and 650 <= pos[1] <= 755 or event.type == pygame.KEYDOWN and \
+                    event.key == pygame.K_SPACE:
                 loss = False
                 restart()
 
@@ -202,9 +204,11 @@ while game_loop:
         display.blit(quit_text, [630, 700])
 
         #   print(pos)
-        if 600 <= pos[0] <= 1030 and 500 <= pos[1] <= 600 or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        if 600 <= pos[0] <= 1030 and 500 <= pos[1] <= 600 or event.type == pygame.KEYDOWN and \
+                event.key == pygame.K_SPACE:
             passed_screen = True
-        if 630 <= pos[0] <= 790 and 700 <= pos[1] <= 815:
+        if 630 <= pos[0] <= 790 and 700 <= pos[1] <= 815 or event.type == pygame.KEYDOWN and \
+                event.key == pygame.K_ESCAPE:
             quit(0)
 
     clock.tick(FPS)
