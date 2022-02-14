@@ -6,7 +6,7 @@ class Av:
         self.x = x
         self.y = y
         self.frame = 0
-        self.step = 6
+        self.step = 9
         self.animation_array = animation_array
         self.change_move = False
 

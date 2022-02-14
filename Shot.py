@@ -11,6 +11,9 @@ class Shot:
     def moving(self):
         self.y -= self.step
 
+    def moving_down(self):
+        self.y += self.step
+
     def display_on_screen(self, display):
         display.blit(self.img, (self.x, self.y))
 

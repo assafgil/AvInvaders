@@ -26,6 +26,6 @@ class Player:
             self.x = 1850
 
         if get_pressed(pygame.K_a):
-            self.x -= 6
+            self.x -= 20
         if get_pressed(pygame.K_d):
-            self.x += 6
+            self.x += 20

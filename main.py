@@ -23,7 +23,7 @@ av_kill_sound.set_volume(20)
 
 pygame.mixer.music.load('2022-02-12-16-33-45-_online-video-cutter.com_.wav')
 pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.set_volume(0.25)
 
 # av animation
 av_pic_array = []
@@ -47,6 +47,7 @@ av_pic_rect = p1.get_rect()
 
 avs = []
 shotArray = []
+av_shotArray = []
 
 player = Player(500, 850, player_pic)
 
@@ -64,13 +65,16 @@ menu_text = font_2.render('menu', True, (0, 0, 0))
 
 
 def restart():
-    global loss, win, score
+    global loss, win, score, count_av_shots, shot_still_alive
     loss, win = False, False
+    count_av_shots = 0
+    av_shotArray.clear()
+    shot_still_alive = True
     score = 0
     avs.clear()
     shotArray.clear()
     for x in range(10):
-        for y in range(5):
+        for y in range(7):
             z = Av(100 * x, 60 * y, av_pic_array)
             avs.append(z)
 
@@ -78,6 +82,9 @@ def restart():
 clock = pygame.time.Clock()
 FPS = 100
 av_timer = 0
+av_shooting_timer = 0
+count_av_shots = 0
+shot_still_alive = True
 
 passed_screen = False
 
@@ -91,14 +98,14 @@ while game_loop:
     pos = (0, 0)
     if event.type == pygame.MOUSEBUTTONDOWN:
         pos = pygame.mouse.get_pos()
-        print(pos)
+    #  print(pos)
 
     display.fill((100, 100, 100))
 
     # AV
     if passed_screen:
 
-        score_text = font.render('score : ' + str(score) + " / 50 ", True, (0, 0, 0))
+        score_text = font.render('score : ' + str(score) + " / 70 ", True, (0, 0, 0))
         display.blit(score_text, [50, 800])
 
         display.blit(menu_text, [50, 50])
@@ -113,9 +120,31 @@ while game_loop:
             av_timer = 0
 
         for av in avs:
+            av_shooting_timer += 1 / FPS
             av.display_on_screen(display)
             av.moving()
-            if av.y > 900:
+
+            if av.frame == 3 and count_av_shots <= 1 and shot_still_alive:
+                count_av_shots += 1
+                av_shotArray.append(Shot(av.x, av.y, shot_pic, 12))
+                av_shotArray.append(Shot(av.x + 300, av.y, shot_pic, 12))
+
+            if av.y > 700:
+                loss = True
+
+        for av_shot in av_shotArray:
+            av_shot.display_on_screen(display)
+            av_shot.moving_down()
+            if count_av_shots > 1:
+                av_shotArray.remove(av_shot)
+                count_av_shots = 0
+                shot_still_alive = False
+
+            if av_shot.y > 1000 and av_shot in av_shotArray:
+                av_shotArray.remove(av_shot)
+                shot_still_alive = True
+
+            if av_shot.getRect().colliderect(player.getRect()):
                 loss = True
 
         # win :
@@ -125,7 +154,7 @@ while game_loop:
         if win:
             display.blit(win_text, [700, 500])
             display.blit(restart_text, [700, 650])
-            display.blit(mazal_tov_text, [300, 800])
+            display.blit(mazal_tov_text, [300, 300])
 
             if 700 <= pos[0] <= 1250 and 650 <= pos[1] <= 755:
                 win = False
@@ -146,7 +175,7 @@ while game_loop:
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             shooting_sound.play()
-            shotArray.append(Shot(player.x + 30, player.y, shot_pic, 8))
+            shotArray.append(Shot(player.x + 30, player.y, shot_pic, 12))
 
         for shot in shotArray:
             shot.display_on_screen(display)
